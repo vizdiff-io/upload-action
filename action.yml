@@ -1,0 +1,48 @@
+name: "VizDiff Upload"
+description: "Uploads Storybooks and PR metadata to vizdiff.io for visual screenshot testing."
+author: "VizDiff"
+branding:
+  icon: "eye"
+  color: "blue"
+
+inputs:
+  project-token:
+    description: "Secret project token from vizdiff.io"
+    required: true
+    sensitive: true
+
+  storybook-dir:
+    description: "Path to the built Storybook static files"
+    required: true
+    default: "storybook-static"
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        cache: "npm"
+
+    - name: Install VizDiff CLI
+      run: npm install -g @vizdiff/cli@latest
+
+    - name: Derive git context vars
+      shell: bash
+      run: |
+        echo "COMMIT_SHA=${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}" >> "$GITHUB_ENV"
+        echo "BRANCH_NAME=${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref_name }}" >> "$GITHUB_ENV"
+        echo "BASE_BRANCH=${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref || '' }}" >> "$GITHUB_ENV"
+        echo "BASE_COMMIT=${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || '' }}" >> "$GITHUB_ENV"
+        echo "PR_NUMBER=${{ github.event.pull_request.number || '' }}" >> "$GITHUB_ENV"
+
+    - name: Upload to VizDiff
+      env:
+        VIZDIFF_PROJECT_TOKEN: ${{ inputs.project-token }}
+      run: |
+        vizdiff upload \
+          --commit "$COMMIT_SHA" \
+          --branch "$BRANCH_NAME" \
+          --base-branch "$BASE_BRANCH" \
+          --base-commit "$BASE_COMMIT" \
+          --pr "$PR_NUMBER" \
+          "${{ inputs.storybook-dir }}"
