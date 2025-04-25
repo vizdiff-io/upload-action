@@ -24,6 +24,7 @@ runs:
         cache: "npm"
 
     - name: Install VizDiff CLI
+      shell: bash
       run: npm install -g @vizdiff/cli@latest
 
     - name: Derive git context vars
@@ -36,6 +37,7 @@ runs:
         echo "PR_NUMBER=${{ github.event.pull_request.number || '' }}" >> "$GITHUB_ENV"
 
     - name: Upload to VizDiff
+      shell: bash
       env:
         VIZDIFF_PROJECT_TOKEN: ${{ inputs.project-token }}
       run: |
