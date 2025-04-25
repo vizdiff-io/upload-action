@@ -1,6 +1,7 @@
 # vizdiff-io/upload-action
 
-![VizDiff Upload](https://img.shields.io/github/v/release/vizdiff-io/vizdiff-upload-action?label=action)
+[![VizDiff Upload](https://img.shields.io/github/v/release/vizdiff-io/upload-action?label=action)](https://github.com/vizdiff-io/upload-action/releases/latest)
+[![GitHub marketplace](https://img.shields.io/badge/marketplace-vizdiff--upload-blue?logo=github&style=flat-square)](https://github.com/marketplace/actions/vizdiff-upload)
 
 GitHub Action for uploading Storybooks to VizDiff for visual screenshot testing.
 
