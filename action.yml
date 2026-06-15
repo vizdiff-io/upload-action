@@ -1,5 +1,5 @@
 name: "VizDiff Upload"
-description: "Uploads Storybooks and PR metadata to vizdiff.io for visual screenshot testing."
+description: "Uploads Storybooks and PR metadata to a self-hosted VizDiff instance for visual screenshot testing."
 author: "VizDiff"
 branding:
   icon: "eye"
@@ -7,7 +7,7 @@ branding:
 
 inputs:
   project-token:
-    description: "Secret project token from vizdiff.io"
+    description: "Secret project token from your VizDiff instance"
     required: true
     sensitive: true
 
